@@ -12,6 +12,43 @@ export default class User {
 
   }
 
+  forgetAuth(type, credentials) {
+    let route = (type === 'login') ? '/login' : '';
+    return this._$http({
+      url: this._AppConstants.api + '/verify-password',
+      method: 'POST',
+      data: {
+        user: credentials//Assuming that this gets you the details
+      }
+    }).then(
+      (res) => {
+        this._JWT.save(res.data.user.token);
+        this.current = res.data.user;
+
+        return res;
+      }
+    );
+  }
+
+  resetAuth(type, credentials) {
+    let route = (type === 'login') ? '/login' : '';
+    return this._$http({
+      url: this._AppConstants.api + '/verify-password',
+      method: 'POST',
+      data: {
+        user: credentials,//Assuming that this gets you the details,
+        Authorization: 'Token ' + this._JWT.get()
+      }
+    }).then(
+      (res) => {
+        this._JWT.save(res.data.user.token);
+        this.current = res.data.user;
+
+        return res;
+      }
+    );
+  }
+
 
   attemptAuth(type, credentials) {
     let route = (type === 'login') ? '/login' : '';

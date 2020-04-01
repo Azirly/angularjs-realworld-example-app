@@ -34,20 +34,35 @@
                 ng-model="$ctrl.formData.email" />
             </fieldset>
 
-            <fieldset class="form-group">
+            <fieldset class="form-group" ng-hide="$ctrl.authType === 'forget'">
               <input class="form-control form-control-lg"
                 type="password"
                 placeholder="Password"
                 ng-model="$ctrl.formData.password" />
             </fieldset>
+            
+            <!--"Reset Password" second password bar-->
+            <fieldset class="form-group" ng-show="$ctrl.authType === 'reset'">
+              <input class="form-control form-control-lg"
+                type="password_check"
+                placeholder="Password_check"
+                ng-model="$ctrl.formData.password" />
+            </fieldset>
 
             <button class="btn btn-lg btn-primary pull-xs-right"
-              type="submit"
-              ng-bind="::$ctrl.title">
+              type="submit">Submit
             </button>
 
           </fieldset>
         </form>
+
+        <!--"Forget Password" button-->
+        <p class="text-xs-left">
+          <a ui-sref="app.forget"
+             ng-show="$ctrl.authType === 'login'">
+            Forget Password?
+          </a>
+        </p>
       </div>
 
     </div>

@@ -13,15 +13,37 @@ class AuthCtrl {
   submitForm() {
     this.isSubmitting = true;
 
-    this._User.attemptAuth(this.authType, this.formData).then(
-      (res) => {
-        this._$state.go('app.home');
-      },
-      (err) => {
-        this.isSubmitting = false;
-        this.errors = err.data.errors;
-      }
-    )
+    console.log(this.formData);
+    if(this.authType == "forget"){
+      this._User.forgetAuth(this.authType, this.formData).then(
+        //If email exists in DB
+        (res) => {
+          console.log(this.authType);
+          console.log("It was a success");
+          this._$state.go('app.reset');
+        },
+        (err) => {
+          console.log(this.authType);
+          console.log("There is an error");
+          this.isSubmitting = false;
+          this.errors = err.data.errors;
+        }
+      )
+    } else{
+      this._User.attemptAuth(this.authType, this.formData).then(
+        (res) => {
+          console.log(this.authType);
+          console.log("It was a success");
+          this._$state.go('app.home');
+        },
+        (err) => {
+          console.log(this.authType);
+          console.log("There is an error");
+          this.isSubmitting = false;
+          this.errors = err.data.errors;
+        }
+      )
+    }
   }
 }
 
